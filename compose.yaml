@@ -1,0 +1,7 @@
+﻿services:
+  processosapi:
+    image: processosapi
+    build:
+      context: .
+      dockerfile: ProcessosAPI/Dockerfile
+
