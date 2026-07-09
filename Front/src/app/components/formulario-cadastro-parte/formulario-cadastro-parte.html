@@ -1,0 +1,18 @@
+<form class="form__container" [formGroup]="formulario">
+    <!-- Descrição do processo -->
+    <mat-form-field class="form_field__container input__form_field">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome">
+    </mat-form-field>
+
+     <!-- Descrição do processo -->
+    <mat-form-field class="form_field__container input__form_field">
+        <mat-label>Tipo</mat-label>
+        <input matInput formControlName="tipo">
+    </mat-form-field>
+
+    <div class="botoes__container">
+        <button matFab (click)="dialogRef.close()">Cancelar</button>
+        <button matFab [disabled]="!formulario.valid" type="submit" (click)="salvar()">Salvar</button>
+    </div>
+</form>

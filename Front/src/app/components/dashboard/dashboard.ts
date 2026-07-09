@@ -32,8 +32,8 @@ export class Dashboard {
 
   criarNovoProcesso() {
     this.dialog.open(FormularioCadastroProcesso,{
-      width:'500px',
-      height:'350px'
+      minWidth:'500px',
+      minHeight:'400px'
     }).afterClosed().subscribe(() => {
       this.fetchProcessos();
     })

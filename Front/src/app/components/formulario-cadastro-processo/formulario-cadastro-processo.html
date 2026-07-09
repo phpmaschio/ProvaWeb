@@ -39,6 +39,23 @@
         </button>
     </div>
 
+    <!-- Parte relacionadas ao processo -->
+    <div class="linha__container">
+        <mat-form-field class="form_field__container">
+            <mat-label>Partes</mat-label>
+            <mat-select formControlName="partes"  multiple>
+                @for (parte of partes; track $index) {
+                <mat-option [value]="parte">
+                    {{parte.nome}}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <button matFab style="width: 10%;" (click)="abrirFormularioCadastroParte()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+
     <div class="botoes__container">
         <button matFab (click)="dialogRef.close()">Cancelar</button>
         <button matFab (click)="salvar()">Salvar</button>

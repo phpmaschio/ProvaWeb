@@ -14,6 +14,9 @@ import { FormularioCadastroStatusProcesso } from '../formulario-cadastro-status-
 import { FormularioCadastroAndamento } from '../formulario-cadastro-andamento/formulario-cadastro-andamento';
 import { CreateAndamentoDto } from '../../models/create-andamento-dto';
 import { ProcessoService } from '../../services/processo-service.service';
+import { ReadParteDto } from '../../models/read-parte-dto';
+import { ParteService } from '../../services/parte-service.service';
+import { FormularioCadastroParte } from '../formulario-cadastro-parte/formulario-cadastro-parte';
 @Component({
   selector: 'app-formulario-cadastro-processo',
   imports: [
@@ -32,11 +35,13 @@ export class FormularioCadastroProcesso {
   protected formulario!: FormGroup;
   protected statusProcessos!: ReadStatusProcessoDto[];
   protected andamentos!: CreateAndamentoDto[];
+  protected partes!: ReadParteDto[]
 
   constructor(
     private formBuilder: FormBuilder,
     private statusProcessoService: StatusProcessoService,
     private andamentoService: AndamentoService,
+    private parteService: ParteService,
     protected dialogRef: MatDialogRef<FormularioCadastroProcesso>,
     private dialog: MatDialog,
     private processoService: ProcessoService
@@ -51,6 +56,7 @@ export class FormularioCadastroProcesso {
     });
     this.fetchStatusProcessos();
     this.fetchAndamentos();
+    this.fetchPartes();
   }
 
   fetchStatusProcessos() {
@@ -58,7 +64,7 @@ export class FormularioCadastroProcesso {
       next: (response: ReadStatusProcessoDto[]) => {
         if (response) {
           this.statusProcessos = response
-          console.log("StatusProcessoResponse",response);
+          console.log("StatusProcessoResponse", response);
         }
       },
       error: (error) => {
@@ -72,6 +78,19 @@ export class FormularioCadastroProcesso {
       next: (response: CreateAndamentoDto[]) => {
         if (response) {
           this.andamentos = response
+        }
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
+  }
+
+  fetchPartes() {
+    this.parteService.getPartes().subscribe({
+      next: (response: ReadParteDto[]) => {
+        if (response) {
+          this.partes = response
         }
       },
       error: (error) => {
@@ -113,6 +132,21 @@ export class FormularioCadastroProcesso {
     }
     );
   }
+
+  abrirFormularioCadastroParte() {
+  this.dialog.open(FormularioCadastroParte, {
+    width: '500px',
+    minHeight: '280px'
+  }).afterClosed().subscribe({
+    next: (result: ReadParteDto) => {
+      this.fetchPartes
+    },
+    error: (error) => {
+      alert('Erro ao cadastrar parte');
+      console.error(error);
+    }
+  });
+}
 
   salvar() {
     var createProcessoDto = this.formulario.value;
