@@ -1,0 +1,43 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.example-card {
+    max-width: 400px;
+}
+
+.linha__container {
+    display: flex;
+    gap: 5px
+}
+
+.filtros__container {
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    height: 50%;
+}
+
+.filtro__input {
+    width: 100%;
+}
+.botao__novo_processo{
+    width: 10%;
+}
+.divisor__card__container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.divisor__card {
+    color: #e9e9e9;
+    width: 95%;
+}
+
+.dados__container{
+    padding: 20px;
+    display: flex;
+    gap:10px;
+}
