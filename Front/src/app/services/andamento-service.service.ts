@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, retry } from 'rxjs';
-import { ReadProcessoDto } from '../models/read-processo-dto';
+import { ReadAndamentoAtualDto } from '../models/read-andamento-dto';
 
 @Injectable({
     providedIn: 'root'
@@ -10,8 +10,8 @@ import { ReadProcessoDto } from '../models/read-processo-dto';
 export class AndamentoService {
     constructor(public http: HttpClient) { }
 
-    public getAndamento(): Observable<ReadProcessoDto[]> {
-        return this.http.get<ReadProcessoDto[]>('/api/Andamento').pipe(
+    public getAndamento(): Observable<ReadAndamentoAtualDto[]> {
+        return this.http.get<ReadAndamentoAtualDto[]>('/api/Andamento').pipe(
             retry(1)
         );
     }

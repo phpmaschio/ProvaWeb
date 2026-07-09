@@ -16,8 +16,17 @@ export class ProcessoService {
         );
     }
 
-    public postProcessos(createProcessoDto:CreateProcessoDto):Observable<ReadProcessoDto>{
-        return this.http.post<ReadProcessoDto>('api/Processo',createProcessoDto);
+    public postProcesso(createProcessoDto: CreateProcessoDto): Observable<ReadProcessoDto> {
+        return this.http.post<ReadProcessoDto>('api/Processo', createProcessoDto);
+    }
+
+    public updateProcesso(processoId:number,createProcessoDto: CreateProcessoDto): Observable<void> {
+        return this.http.put<void>('api/Processo/'+processoId, createProcessoDto);
+    }
+
+
+    public deleteProcesso(processoId: number): Observable<void> {
+        return this.http.delete<void>("/api/Processo/" + processoId);
     }
 
 
