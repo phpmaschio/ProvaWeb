@@ -12,5 +12,5 @@ public record CreateProcessoDto(
         [Required(ErrorMessage = "Partes atribuidas ao processo são obrigatórias")]
         List<ReadParteDto> Partes,
         [Required(ErrorMessage = "Andamento atribuido ao processo é obrigatório")]
-        ReadAndamentoAtualDto Andamento
-    );
+        CreateAndamentoDto Andamento
+    );      

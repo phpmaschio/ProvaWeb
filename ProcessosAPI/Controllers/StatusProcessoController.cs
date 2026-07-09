@@ -8,7 +8,7 @@ using ProcessosAPI.Services;
 namespace ProcessosAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class StatusProcessoController : ControllerBase
 {
     private readonly StatusProcessoService _statusProcessoService;

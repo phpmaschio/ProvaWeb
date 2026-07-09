@@ -16,12 +16,26 @@ public class AndamentoService
         _context = context;
     }
 
-    public void AtribuirAndamentoProcesso(Processo processo, ReadAndamentoAtualDto andamentoDto)
+    public ReadAndamentoAtualDto AtribuirAndamentoProcesso(Processo processo, CreateAndamentoDto andamentoDto)
     {
         Andamento andamento = _mapper.Map<Andamento>(andamentoDto);
         andamento.Processo = processo;
         andamento.AtribuidoEm = DateTime.UtcNow;
         _context.Andamentos.Add(andamento);
         _context.SaveChanges();
+        return _mapper.Map<ReadAndamentoAtualDto>(andamento);
+    }
+
+    public Andamento? BuscarAndamentoAtualDoProcesso(long processoId)
+    {
+        return _context.Andamentos
+            .Where(a => a.Processo.Id == processoId)
+            .OrderByDescending(a => a.AtribuidoEm)
+            .FirstOrDefault();
+    }
+
+    public List<ReadAndamentoAtualDto> ListarAndamentos()
+    {
+        return _mapper.Map<List<ReadAndamentoAtualDto>>(_context.Andamentos);
     }
 }

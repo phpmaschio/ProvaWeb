@@ -10,6 +10,10 @@ public class AndamentoProfile: Profile
    {
       CreateMap<ReadAndamentoAtualDto,Andamento>();
       CreateMap<Andamento,ReadAndamentoAtualDto>();
+      CreateMap<CreateAndamentoDto,Andamento>();
+      CreateMap<Andamento, CreateAndamentoDto>();
+      
+      
     
    } 
 }

@@ -9,7 +9,7 @@ using ProcessosAPI.Services;
 
 namespace ProcessosAPI.Controllers;
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ProcessoController : ControllerBase
 {
     private readonly ProcessoService _processoService;

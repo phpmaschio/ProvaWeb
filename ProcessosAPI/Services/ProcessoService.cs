@@ -34,12 +34,22 @@ public class ProcessoService
 
     public List<ReadProcessoDto> ListarProcessos(int skip, int take)
     {
-        return _mapper.Map<List<ReadProcessoDto>>(
+        var processos = _mapper.Map<List<ReadProcessoDto>>(
             _apiContext.Processos
                 .Include(p => p.Status)
                 .Skip(skip)
                 .Take(take)
                 .ToList());
+
+        var resultado = processos.Select(p =>
+        {
+            var andamento = _andamentoService.BuscarAndamentoAtualDoProcesso(p.Id);
+            return andamento == null 
+                ? p 
+                : p with { Andamento = _mapper.Map<ReadAndamentoAtualDto>(andamento) };
+        }).ToList();
+
+        return resultado;
     }
 
     public ReadProcessoDto BuscarProcessoPorIdDto(long id)
@@ -75,13 +85,13 @@ public class ProcessoService
         _parteProcessoService.AtribuirPartesAoProcesso(processo, partes );
         
         //Atribuir andamento
-        _andamentoService.AtribuirAndamentoProcesso(processo,createProcessoDto.Andamento);
+        ReadAndamentoAtualDto andamentoAtualDto = _andamentoService.AtribuirAndamentoProcesso(processo,createProcessoDto.Andamento);
         return new ReadProcessoDto(
             processo.Id,
             processo.Descricao,
             _mapper.Map<ReadStatusProcessoDto>(processo.Status),
             createProcessoDto.Partes,
-            createProcessoDto.Andamento);
+            andamentoAtualDto);
     }
     
     public void AtualizarProcesso(long id, UpdateProcessoDto updateProcessoDto)
