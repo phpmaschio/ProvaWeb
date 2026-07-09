@@ -26,7 +26,7 @@
     <div class="linha__container">
         <mat-form-field class="form_field__container">
             <mat-label>Andamento</mat-label>
-            <mat-select formControlName="andamento">
+            <mat-select formControlName="andamento" [compareWith]="compararPorId">
                 @for (andamento of andamentos; track $index) {
                 <mat-option [value]="andamento">
                     {{andamento.descricao}}
@@ -43,7 +43,7 @@
     <div class="linha__container">
         <mat-form-field class="form_field__container">
             <mat-label>Partes</mat-label>
-            <mat-select formControlName="partes"  multiple>
+            <mat-select formControlName="partes" [compareWith]="compararPorId" multiple>
                 @for (parte of partes; track $index) {
                 <mat-option [value]="parte">
                     {{parte.nome}}

@@ -11,26 +11,36 @@
     </div>
 
     <div class="dados__container">
-        @for (processo of processos; track $index) {
-        <mat-card class="example-card" appearance="outlined">
-            <mat-card-header>
-                <mat-card-title>#{{processo.id}} - {{processo.descricao}}</mat-card-title>
-                <mat-card-subtitle>{{processo.statusProcesso.descricao}}</mat-card-subtitle>
-            </mat-card-header>
-            <div class="divisor__card__container">
-                <hr class="divisor__card">
-            </div>
-            <mat-card-content>
-                <span class="linha__container">
-                    <strong>Andamento Atual:</strong>
-                    <p>
-                        {{processo.andamento.descricao}}
-                    </p>
+        <div *ngFor="let processo of processos">
+            <mat-card class="example-card" appearance="outlined">
+                <mat-card-header>
+                    <mat-card-title>#{{processo.id}} - {{processo.descricao}}</mat-card-title>
+                    <mat-card-subtitle>{{processo.statusProcesso.descricao}}</mat-card-subtitle>
+                </mat-card-header>
+                <div class="divisor__card__container">
+                    <hr class="divisor__card">
+                </div>
+                <mat-card-content>
+                    <span class="linha__container">
+                        <strong>Andamento Atual:</strong>
+                        <p>
+                            {{processo.andamento.descricao}}
+                        </p>
 
-                </span>
+                    </span>
 
-            </mat-card-content>
-        </mat-card>
-        }
+                </mat-card-content>
+
+                <div class="botoes_card__container">
+                    <button matFab style="background-color: red; color: white;"
+                        (click)="excluirProcesso(processo.id)"><mat-icon>
+                            delete
+                        </mat-icon></button>
+                    <button (click)="editarProcesso(processo)" matFab style="background-color: orange; color: white;"><mat-icon>
+                            edit
+                        </mat-icon></button>
+                </div>
+            </mat-card>
+        </div>
     </div>
 </div>
