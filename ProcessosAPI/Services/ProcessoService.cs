@@ -34,24 +34,37 @@ public class ProcessoService
 
     public List<ReadProcessoDto> ListarProcessos(int skip, int take)
     {
-        var processos = _mapper.Map<List<ReadProcessoDto>>(
-            _apiContext.Processos
-                .Include(p => p.Status)
-                .Skip(skip)
-                .Take(take)
-                .ToList());
-
-        var resultado = processos.Select(p =>
+        var processosDb = _apiContext.Processos
+            .Include(p => p.Status)
+            .Include(p => p.PartesProcessos)
+            .ThenInclude(pp => pp.Parte)
+            .Skip(skip)
+            .Take(take)
+            .ToList();
+        
+        var resultado = processosDb.Select(p =>
         {
             var andamento = _andamentoService.BuscarAndamentoAtualDoProcesso(p.Id);
-            return andamento == null 
-                ? p 
-                : p with { Andamento = _mapper.Map<ReadAndamentoAtualDto>(andamento) };
+            
+            var processoDto = _mapper.Map<ReadProcessoDto>(p);
+
+            // Usa a expressão 'with' do C# (já que seu DTO é um record) para preencher as coleções e relacionamentos que faltam
+            return processoDto with 
+            { 
+                // Navegamos por PartesProcessos para extrair as Partes e mapeá-las para ReadParteDto
+                Partes = p.PartesProcessos
+                    .Select(pp => _mapper.Map<ReadParteDto>(pp.Parte))
+                    .ToList(),
+                            
+                Andamento = andamento == null 
+                    ? null 
+                    : _mapper.Map<ReadAndamentoAtualDto>(andamento)
+            };
+            
         }).ToList();
 
         return resultado;
     }
-
     public ReadProcessoDto BuscarProcessoPorIdDto(long id)
     {
         var processo = _apiContext.Processos.Include(p => p.Status).FirstOrDefault(x => x.Id == id);
@@ -93,21 +106,69 @@ public class ProcessoService
             createProcessoDto.Partes,
             andamentoAtualDto);
     }
+public void AtualizarProcesso(long id, UpdateProcessoDto updateProcessoDto)
+{
+    var processo = _mapper.Map<Processo>(updateProcessoDto);
+    var processoSalvo = this.BuscarProcessoPorId(id);
     
-    public void AtualizarProcesso(long id, UpdateProcessoDto updateProcessoDto)
+    if (processoSalvo == null) throw new NotFoundException("Processo não encontrado");
+    
+    var statusProcesso = _statusProcessoService.RetornaStatusPorId(updateProcessoDto.StatusProcessoId);
+    if (statusProcesso == null) throw new NotFoundException("Status não econtrado");
+    
+    // Atualiza dados básicos
+    processoSalvo.Descricao = processo.Descricao;
+    processoSalvo.Status = statusProcesso;
+    processoSalvo.UltimaAlteracao = DateTime.UtcNow;
+    
+    _apiContext.Processos.Update(processoSalvo);
+
+    // Alterar andamento
+    this._andamentoService.AtribuirAndamentoProcesso(processoSalvo, updateProcessoDto.Andamento);
+    
+    // ==========================================
+    // ALTERAR PARTES (Usando seu modelo com Navegação)
+    // ==========================================
+    
+    // 1. Extraímos os IDs que vieram do Frontend
+    var idsPartesRecebidas = updateProcessoDto.Partes.Select(p => p.Id).ToList();
+
+    // 2. Buscamos os vínculos atuais (com os Includes necessários para acessar as propriedades de navegação)
+    var vinculosAtuais = _apiContext.PartesProcessos
+        .Include(pp => pp.Parte)    // <-- Precisa incluir para podermos ler o pp.Parte.Id
+        .Include(pp => pp.Processo) // <-- Precisa incluir para comparar o Processo
+        .Where(pp => pp.Processo.Id == processoSalvo.Id)
+        .ToList();
+        
+    var idsPartesAtuais = vinculosAtuais.Select(pp => pp.Parte.Id).ToList();
+
+    // 3. REMOVER: Vínculos que estão no banco, mas NÃO vieram na atualização
+    var vinculosParaRemover = vinculosAtuais
+        .Where(pp => !idsPartesRecebidas.Contains(pp.Parte.Id))
+        .ToList();
+
+    _apiContext.PartesProcessos.RemoveRange(vinculosParaRemover);
+
+    // 4. ADICIONAR: IDs que vieram na atualização, mas NÃO estão no banco
+    var idsParaAdicionar = idsPartesRecebidas
+        .Where(id => !idsPartesAtuais.Contains(id))
+        .ToList();
+
+    foreach (var idAdicionar in idsParaAdicionar)
     {
-        var processo = _mapper.Map<Processo>(updateProcessoDto);
-        var processoSalvo = this.BuscarProcessoPorId(id);
-        if (processoSalvo == null) throw new NotFoundException("Processo não encontrado");
-        var statusProcesso = _statusProcessoService.RetornaStatusPorId(updateProcessoDto.StatusProcessoId);
-        if (statusProcesso == null) throw new NotFoundException("Status não econtrado");
-        processoSalvo.Descricao = processo.Descricao;
-        processoSalvo.Status = statusProcesso;
-        processoSalvo.UltimaAlteracao = DateTime.UtcNow;
-        _apiContext.Processos.Update(processoSalvo);
-        _apiContext.SaveChanges();
+        var parteExiste = _parteService.BuscarPartePorId(idAdicionar);
+        if (parteExiste == null) 
+            throw new NotFoundException($"Erro ao atribuir Partes, parte de ID {idAdicionar} não encontrada");
+
+        // Utilizando o construtor customizado que você criou no modelo ParteProcesso!
+        var novoVinculo = new ParteProcesso(parteExiste, processoSalvo);
+        
+        _apiContext.PartesProcessos.Add(novoVinculo);
     }
 
+    // Salva tudo na mesma transação
+    _apiContext.SaveChanges();
+}    
     public void DeletarProcesso(long id)
     {
         var processoSalvo = this.BuscarProcessoPorId(id);
