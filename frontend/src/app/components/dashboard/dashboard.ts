@@ -75,8 +75,9 @@ export class Dashboard implements OnInit {
 
   criarNovoProcesso() {
     this.dialog.open(FormularioCadastroProcesso, {
-      minWidth: '500px',
-      minHeight: '400px',
+      width: '90vw',
+      maxWidth: '500px',
+      maxHeight: '90vh',
       data: { editando: false }
     }).afterClosed().subscribe(() => {
       this.fetchProcessos();
@@ -85,8 +86,9 @@ export class Dashboard implements OnInit {
 
   editarProcesso(processo: ReadProcessoDto) {
     this.dialog.open(FormularioCadastroProcesso, {
-      minWidth: '500px',
-      minHeight: '400px',
+      width: '90vw',
+      maxWidth: '500px',
+      maxHeight: '90vh',
       data: { processo: processo, edicao: true }
     }).afterClosed().subscribe(() => {
       this.fetchProcessos();
@@ -95,7 +97,8 @@ export class Dashboard implements OnInit {
 
   excluirProcesso(processoId: number) {
     this.dialog.open(ConfirmDialog, {
-      width: '400px',
+      width: '90vw',
+      maxWidth: '400px',
       data: {
         titulo: 'Excluir processo',
         mensagem: 'Deseja realmente excluir o processo?'
@@ -113,8 +116,9 @@ export class Dashboard implements OnInit {
 
   visualizarProcesso(processo: ReadProcessoDto) {
     this.dialog.open(DadosDetalhadosProcesso, {
-      minWidth: '600px',
-      maxHeight: '600px',
+      width: '90vw',
+      maxWidth: '600px',
+      maxHeight: '90vh',
       data: { processo: processo }
     });
   }

@@ -25,7 +25,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
+}
+
+.linha__container .form_field__container{
+    width: auto;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.linha__container button{
+    flex-shrink: 0;
 }
 
 .botoes__container{

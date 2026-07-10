@@ -152,7 +152,8 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
 
   abrirFormularioCadastroStatusProcesso() {
     this.dialog.open(FormularioCadastroStatusProcesso, {
-      width: '500px',
+      width: '90vw',
+      maxWidth: '500px',
       height: '210px'
     }).afterClosed().subscribe({
       next: (result) => {
@@ -166,7 +167,8 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
 
   abrirFormularioCadastroAndamento() {
     this.dialog.open(FormularioCadastroAndamento, {
-      width: '500px',
+      width: '90vw',
+      maxWidth: '500px',
       height: '210px'
     }).afterClosed().subscribe({
       next: (result: ReadAndamentoAtualDto) => {
@@ -180,7 +182,8 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
 
   abrirFormularioCadastroParte() {
     this.dialog.open(FormularioCadastroParte, {
-      width: '500px',
+      width: '90vw',
+      maxWidth: '500px',
       minHeight: '190px'
     }).afterClosed().subscribe({
       next: (result: ReadParteDto) => {

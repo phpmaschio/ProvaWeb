@@ -26,6 +26,11 @@ hr{
     margin-bottom: 10px;
 }
 
+.table__scroll {
+    width: 100%;
+    overflow-x: auto;
+}
+
 ::ng-deep .mat-mdc-table {
   width: 100%;
   border-collapse: collapse;

@@ -136,8 +136,16 @@ public void AtualizarProcesso(long id, UpdateProcessoDto updateProcessoDto)
     
     _apiContext.Processos.Update(processoSalvo);
 
-    // Alterar andamento
-    this._andamentoService.AtribuirAndamentoProcesso(processoSalvo, updateProcessoDto.Andamento);
+    // Alterar andamento (só cria um novo registro se a descrição realmente mudou,
+    // evitando duplicar o histórico a cada edição do processo)
+    var andamentoAtual = _andamentoService.BuscarAndamentoAtualDoProcesso(processoSalvo.Id);
+    var descricaoMudou = andamentoAtual == null
+        || !string.Equals(andamentoAtual.Descricao, updateProcessoDto.Andamento.Descricao, StringComparison.OrdinalIgnoreCase);
+
+    if (descricaoMudou)
+    {
+        this._andamentoService.AtribuirAndamentoProcesso(processoSalvo, updateProcessoDto.Andamento);
+    }
     
     // ==========================================
     // ALTERAR PARTES (Usando seu modelo com Navegação)

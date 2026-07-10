@@ -78,3 +78,24 @@
     align-items: center;
     padding: 10px;
 }
+
+@media (max-width: 600px) {
+    .filtros__container {
+        flex-direction: column;
+        align-items: stretch;
+        height: auto;
+    }
+
+    .botao__novo_processo {
+        width: 100%;
+    }
+
+    .dados__container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .example-card {
+        max-width: 100%;
+    }
+}

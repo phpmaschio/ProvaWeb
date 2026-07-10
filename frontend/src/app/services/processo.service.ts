@@ -1,8 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, retry } from 'rxjs';
 import { ReadProcessoDto } from '../models/read-processo-dto';
 import { CreateProcessoDto } from '../models/create-processo-dto';
+
+// A API limita "take" a 100 por requisição (proteção contra consultas sem limite).
+const TAKE_MAXIMO = 100;
+
 @Injectable({
     providedIn: 'root'
 })
@@ -10,8 +14,9 @@ import { CreateProcessoDto } from '../models/create-processo-dto';
 export class ProcessoService {
     constructor(public http: HttpClient) { }
 
-    public getProcessos(): Observable<ReadProcessoDto[]> {
-        return this.http.get<ReadProcessoDto[]>('/api/Processo').pipe(
+    public getProcessos(skip: number = 0, take: number = TAKE_MAXIMO): Observable<ReadProcessoDto[]> {
+        const params = new HttpParams().set('skip', skip).set('take', take);
+        return this.http.get<ReadProcessoDto[]>('/api/Processo', { params }).pipe(
             retry(1)
         );
     }
