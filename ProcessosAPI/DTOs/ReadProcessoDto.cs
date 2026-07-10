@@ -14,5 +14,7 @@ public record ReadProcessoDto(
         [Required(ErrorMessage = "Partes atribuidas ao processo são obrigatórias")]
         List<ReadParteDto> Partes,
         [Required(ErrorMessage = "Andamento atribuido ao processo é obrigatório")]
-        ReadAndamentoAtualDto Andamento
+        ReadAndamentoAtualDto Andamento,
+        [Required(ErrorMessage = "Data de criação do processo é obrigatória")]
+        DateTime CriadoEm
         );

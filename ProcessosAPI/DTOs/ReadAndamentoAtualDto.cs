@@ -7,5 +7,7 @@ public record ReadAndamentoAtualDto(
         long Id,
         [Required(ErrorMessage = "Descrição do andamento é obrigatoria")]  
         [StringLength(100,ErrorMessage = "A descrição deve conter no máximo 100 caracteres")] 
-        string Descricao
+        string Descricao,
+        [Required(ErrorMessage = "Data de atribuição do andamento é obrigatória")]  
+        DateTime AtribuidoEm
     );

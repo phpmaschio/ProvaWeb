@@ -21,7 +21,8 @@ public class ProcessoProfile: Profile
             src.Descricao,
             context.Mapper.Map<ReadStatusProcessoDto>(src.Status),
             context.Mapper.Map<List<ReadParteDto>>(null),
-            context.Mapper.Map<ReadAndamentoAtualDto>(null)
+            context.Mapper.Map<ReadAndamentoAtualDto>(null),
+            src.CriadoEm
          ));
    } 
 }

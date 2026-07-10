@@ -104,7 +104,8 @@ public class ProcessoService
             processo.Descricao,
             _mapper.Map<ReadStatusProcessoDto>(processo.Status),
             createProcessoDto.Partes,
-            andamentoAtualDto);
+            andamentoAtualDto,
+            processo.CriadoEm);
     }
 public void AtualizarProcesso(long id, UpdateProcessoDto updateProcessoDto)
 {
