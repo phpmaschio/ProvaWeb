@@ -35,4 +35,22 @@ public class AndamentoController: ControllerBase
             return BadRequest(e.Message);
         }
     }
+    [HttpGet("Processo/{id}")]
+    public IActionResult ListarAndamentos(long id)
+    {
+        try
+        {
+            return Ok(_andamentoService.BuscarAndamentoPorProcesso(id));
+        }
+        catch (NotFoundException e)
+        {
+            Console.WriteLine(e);
+            return NotFound(e.Message);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
 }

@@ -33,6 +33,13 @@ public class AndamentoService
             .OrderByDescending(a => a.AtribuidoEm)
             .FirstOrDefault();
     }
+    
+    public List<ReadAndamentoAtualDto> BuscarAndamentoPorProcesso(long processoId)
+    {
+        return _mapper.Map<List<ReadAndamentoAtualDto>>(_context.Andamentos
+            .Where(a => a.Processo.Id == processoId)
+            .OrderByDescending(a => a.AtribuidoEm));
+    }
 
     public List<ReadAndamentoAtualDto> ListarAndamentos()
     {
