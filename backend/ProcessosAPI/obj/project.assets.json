@@ -1386,19 +1386,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\EX-DEV-04\\.nuget\\packages\\": {}
+    "/root/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\pedro\\ProvaWeb\\backend\\ProcessosAPI\\ProcessosAPI.csproj",
+      "projectUniqueName": "/src/ProcessosAPI/ProcessosAPI.csproj",
       "projectName": "ProcessosAPI",
-      "projectPath": "C:\\pedro\\ProvaWeb\\backend\\ProcessosAPI\\ProcessosAPI.csproj",
-      "packagesPath": "C:\\Users\\EX-DEV-04\\.nuget\\packages\\",
-      "outputPath": "C:\\pedro\\ProvaWeb\\backend\\ProcessosAPI\\obj\\",
+      "projectPath": "/src/ProcessosAPI/ProcessosAPI.csproj",
+      "packagesPath": "/root/.nuget/packages/",
+      "outputPath": "/src/ProcessosAPI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\EX-DEV-04\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/root/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -1416,13 +1416,7 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "10.0.300"
+      }
     },
     "frameworks": {
       "net6.0": {
@@ -1466,24 +1460,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[6.0.36, 6.0.36]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[6.0.36, 6.0.36]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[6.0.36, 6.0.36]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[6.0.36, 6.0.36]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -1492,20 +1468,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\EX-DEV-04\\.dotnet\\sdk\\10.0.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.428/RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1903",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'AutoMapper' 12.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x",
-      "libraryId": "AutoMapper",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  }
 }

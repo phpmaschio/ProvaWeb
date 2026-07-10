@@ -33,6 +33,32 @@ docker compose up --build -d
 
 Isso builda o frontend (Angular), o backend (.NET) e sobe um container único com Postgres, API e frontend servidos via nginx. As migrations do banco são aplicadas automaticamente na inicialização.
 
+`docker-compose.yml`:
+
+```yaml
+services:
+  app:
+    build:
+      context: .
+      dockerfile: single-container/Dockerfile
+    container_name: processos-app
+    restart: unless-stopped
+    ports:
+      - "80:80"       # Angular via nginx
+      - "8080:8080"   # API .NET direta (opcional, útil para debug)
+      - "5433:5432"   # Postgres (opcional, útil para conectar DBeaver/pgAdmin)
+    environment:
+      APP_DB_NAME: processos_api
+      APP_DB_USER: processos_api_user
+      APP_DB_PASSWORD: processos_api_password
+      ConnectionStrings__ProcessoConnection: "Host=localhost;Port=5432;Database=processos_api;Username=processos_api_user;Password=processos_api_password"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+```
+
 Acessos após subir:
 - Frontend: http://localhost
 - API direta: http://localhost:8080
@@ -80,6 +106,15 @@ npm start
 ```
 
 O frontend sobe em `http://localhost:4200` e usa `proxy.config.mjs` para redirecionar chamadas `/api/**` para o backend local.
+
+## Testes
+
+Testes unitários do backend (xUnit + EF Core InMemory), cobrindo a camada de serviços (`ProcessoService`: CRUD, validações de not-found, dedup de andamento, vínculo de partes).
+
+```bash
+cd backend/ProcessosAPI.Tests
+dotnet test
+```
 
 ## Funcionalidades
 
