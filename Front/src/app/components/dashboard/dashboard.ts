@@ -17,8 +17,9 @@ import { DadosDetalhadosProcesso } from '../dados-detalhados-processo/dados-deta
   styleUrl: './dashboard.scss',
 })
 export class Dashboard implements OnInit {
+
+  private todosProcessos: ReadProcessoDto[] = [];
   protected processos: ReadProcessoDto[] = [];
-  protected filtro: string = '';
   protected loading: boolean = false;
 
   constructor(
@@ -33,29 +34,49 @@ export class Dashboard implements OnInit {
 
   fetchProcessos() {
     this.loading = true;
-    
-    this.cdr.detectChanges(); 
+    this.cdr.detectChanges();
 
     this.processoService.getProcessos().subscribe({
       next: (response: ReadProcessoDto[]) => {
-        this.processos = response || [];
+        this.todosProcessos = response || [];
+        this.processos = [...this.todosProcessos];
         this.loading = false;
-        this.cdr.markForCheck(); 
-        this.cdr.detectChanges(); 
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
       },
       error: (error) => {
-        console.error(error);
+        console.error("Erro ao buscar processos:", error);
         this.loading = false;
         this.cdr.detectChanges();
       }
     });
-}
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
+    if (!filterValue) {
+      this.processos = [...this.todosProcessos];
+      return;
+    }
+
+    this.processos = this.todosProcessos.filter(p => {
+      const textoParaBusca = `
+        ${p.id} 
+        ${p.descricao} 
+        ${p.statusProcesso?.descricao ?? ''} 
+        ${p.andamento?.descricao ?? ''}
+      `.toLowerCase();
+
+      return textoParaBusca.includes(filterValue);
+    });
+  }
 
   criarNovoProcesso() {
     this.dialog.open(FormularioCadastroProcesso, {
       minWidth: '500px',
       minHeight: '400px',
-      data:{editando:false}
+      data: { editando: false }
     }).afterClosed().subscribe(() => {
       this.fetchProcessos();
     });
@@ -65,7 +86,7 @@ export class Dashboard implements OnInit {
     this.dialog.open(FormularioCadastroProcesso, {
       minWidth: '500px',
       minHeight: '400px',
-      data:{processo: processo, edicao:true}
+      data: { processo: processo, edicao: true }
     }).afterClosed().subscribe(() => {
       this.fetchProcessos();
     });
@@ -85,11 +106,11 @@ export class Dashboard implements OnInit {
     }
   }
 
-  visualizarProcesso(processo:ReadProcessoDto){
-    this.dialog.open(DadosDetalhadosProcesso,{
-      minWidth:'600px',
-      height: '600px',
-      data:{processo:processo}
-    })
+  visualizarProcesso(processo: ReadProcessoDto) {
+    this.dialog.open(DadosDetalhadosProcesso, {
+      minWidth: '600px',
+      maxHeight: '600px',
+      data: { processo: processo }
+    });
   }
 }
