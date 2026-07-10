@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/pedro/Projetos/ProcessosAPI/ProcessosAPI/ProcessosAPI.csproj": {}
+    "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/ProcessosAPI.csproj": {}
   },
   "projects": {
-    "/home/pedro/Projetos/ProcessosAPI/ProcessosAPI/ProcessosAPI.csproj": {
+    "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/ProcessosAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/pedro/Projetos/ProcessosAPI/ProcessosAPI/ProcessosAPI.csproj",
+        "projectUniqueName": "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/ProcessosAPI.csproj",
         "projectName": "ProcessosAPI",
-        "projectPath": "/home/pedro/Projetos/ProcessosAPI/ProcessosAPI/ProcessosAPI.csproj",
+        "projectPath": "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/ProcessosAPI.csproj",
         "packagesPath": "/home/pedro/.nuget/packages/",
-        "outputPath": "/home/pedro/Projetos/ProcessosAPI/ProcessosAPI/obj/",
+        "outputPath": "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/pedro/.nuget/NuGet/NuGet.Config"
