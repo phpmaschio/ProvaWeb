@@ -21,12 +21,12 @@ export class ProcessoService {
     }
 
     public updateProcesso(processoId:number,createProcessoDto: CreateProcessoDto): Observable<void> {
-        return this.http.put<void>('api/Processo/'+processoId, createProcessoDto);
+        return this.http.put<void>(`/api/Processo/${processoId}`, createProcessoDto);
     }
 
 
     public deleteProcesso(processoId: number): Observable<void> {
-        return this.http.delete<void>("/api/Processo/" + processoId);
+        return this.http.delete<void>(`/api/Processo/${processoId}`);
     }
 
 

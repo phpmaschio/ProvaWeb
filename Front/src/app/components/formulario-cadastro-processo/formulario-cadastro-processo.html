@@ -65,7 +65,7 @@
 
     <div class="botoes__container">
         <button matFab (click)="dialogRef.close()">Cancelar</button>
-        <button matFab (click)="salvar()">Salvar</button>
+        <button matFab [disabled]="!formulario.valid" (click)="salvar()">Salvar</button>
     </div>
 </form>
 }

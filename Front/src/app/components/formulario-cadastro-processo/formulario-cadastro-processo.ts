@@ -61,7 +61,6 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
     });
   }
 
-  // Usamos o OnInit para não sobrecarregar o construtor
   ngOnInit(): void {
     this.carregarDadosIniciais();
   }
@@ -69,19 +68,22 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
   carregarDadosIniciais() {
     this.loading = true;
 
-    // forkJoin espera todas as requisições terminarem ao mesmo tempo
     forkJoin({
       status: this.statusProcessoService.getStatusProcessos(),
       andamentos: this.andamentoService.getAndamento(),
       partes: this.parteService.getPartes()
     }).subscribe({
       next: (resultados) => {
-        // 1. Populamos as listas
+
         this.statusProcessos = resultados.status;
-        this.andamentos = resultados.andamentos;
         this.partes = resultados.partes;
 
-        // 2. AGORA SIM preenchemos o formulário (pois as listas já tem dados para o mat-select ler)
+        this.andamentos = Array.from(
+          new Map(
+            resultados.andamentos.map(a => [a.descricao.trim().toLowerCase(), a])
+          ).values()
+        );
+
         if (this.data.edicao && this.data.processo) {
           this.formulario.patchValue({
             descricao: this.data.processo.descricao,
@@ -91,7 +93,6 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
           });
         }
 
-        // 3. Desligamos o loading e forçamos a tela a atualizar
         this.loading = false;
         this.cdr.detectChanges();
       },
@@ -103,7 +104,6 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
     });
   }
 
-  // --- Mantivemos os métodos individuais para quando você adicionar um item novo nos modais menores ---
 
   fetchStatusProcessos() {
     this.loading = true;
@@ -153,7 +153,6 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
     });
   }
 
-  // --- Modais de Cadastro ---
 
   abrirFormularioCadastroStatusProcesso() {
     this.dialog.open(FormularioCadastroStatusProcesso, {
@@ -162,8 +161,7 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
     }).afterClosed().subscribe({
       next: (result) => {
         if (result) {
-          // Após cadastrar, buscamos novamente apenas a lista de status
-          this.fetchStatusProcessos(); 
+          this.fetchStatusProcessos();
           this.formulario.get('statusProcessoId')?.setValue(result.id);
         }
       }
@@ -190,8 +188,7 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
       minHeight: '280px'
     }).afterClosed().subscribe({
       next: (result: ReadParteDto) => {
-        // CORRIGIDO: Estava this.fetchPartes sem os parênteses
-        this.fetchPartes(); 
+        this.fetchPartes();
       },
       error: (error) => {
         alert('Erro ao cadastrar parte');

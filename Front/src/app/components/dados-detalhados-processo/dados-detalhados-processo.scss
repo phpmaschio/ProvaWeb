@@ -1,0 +1,49 @@
+@import url(../../app.scss);
+
+.container{
+    padding: 20px;
+}
+
+.cabecalho__container{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+hr{
+    margin: 10px 0 20px 0;
+}
+
+.cabecalho_linha__container{
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+::ng-deep .mat-mdc-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #e0e0e0;
+
+
+  .mat-mdc-header-row {
+    background-color: #dcedc8;
+  }
+
+  .mat-mdc-header-cell {
+    color: #33691e;
+    font-weight: bold;
+    padding: 16px;
+  }
+
+  .mat-mdc-cell, 
+  .mat-mdc-header-cell {
+    border: 1px solid #e0e0e0; 
+  }
+
+
+  .mat-mdc-row:hover {
+    background-color: #f5f5f5;
+  }
+}

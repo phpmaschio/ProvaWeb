@@ -8,6 +8,7 @@ import { FormularioCadastroProcesso } from '../formulario-cadastro-processo/form
 import { ProcessoService } from '../../services/processo-service.service';
 import { CommonModule } from '@angular/common';
 import { MatSpinner } from '@angular/material/progress-spinner';
+import { DadosDetalhadosProcesso } from '../dados-detalhados-processo/dados-detalhados-processo';
 
 @Component({
   selector: 'app-dashboard',
@@ -82,5 +83,13 @@ export class Dashboard implements OnInit {
         }
       });
     }
+  }
+
+  visualizarProcesso(processo:ReadProcessoDto){
+    this.dialog.open(DadosDetalhadosProcesso,{
+      minWidth:'600px',
+      height: '600px',
+      data:{processo:processo}
+    })
   }
 }

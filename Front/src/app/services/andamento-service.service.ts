@@ -15,6 +15,11 @@ export class AndamentoService {
             retry(1)
         );
     }
+    public getAndamentoPorProcesso(processoId: number): Observable<ReadAndamentoAtualDto[]> {
+        return this.http.get<ReadAndamentoAtualDto[]>(`/api/Andamento/Processo/${processoId}`).pipe(
+            retry(1)
+        );
+    }
 
 
 }
