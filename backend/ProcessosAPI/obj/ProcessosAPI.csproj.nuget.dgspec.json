@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/src/ProcessosAPI/ProcessosAPI.csproj": {}
+    "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/ProcessosAPI.csproj": {}
   },
   "projects": {
-    "/src/ProcessosAPI/ProcessosAPI.csproj": {
+    "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/ProcessosAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/src/ProcessosAPI/ProcessosAPI.csproj",
+        "projectUniqueName": "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/ProcessosAPI.csproj",
         "projectName": "ProcessosAPI",
-        "projectPath": "/src/ProcessosAPI/ProcessosAPI.csproj",
-        "packagesPath": "/root/.nuget/packages/",
-        "outputPath": "/src/ProcessosAPI/obj/",
+        "projectPath": "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/ProcessosAPI.csproj",
+        "packagesPath": "/home/pedro/.nuget/packages/",
+        "outputPath": "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/root/.nuget/NuGet/NuGet.Config"
+          "/home/pedro/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -71,8 +71,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -84,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.428/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/6.0.136/RuntimeIdentifierGraph.json"
         }
       }
     }

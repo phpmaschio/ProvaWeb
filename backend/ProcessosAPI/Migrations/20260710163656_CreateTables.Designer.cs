@@ -12,8 +12,8 @@ using ProcessosAPI.Data;
 namespace ProcessosAPI.Migrations
 {
     [DbContext(typeof(ProcessoApiContext))]
-    [Migration("20260710125332_RemoveUsuario")]
-    partial class RemoveUsuario
+    [Migration("20260710163656_CreateTables")]
+    partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
