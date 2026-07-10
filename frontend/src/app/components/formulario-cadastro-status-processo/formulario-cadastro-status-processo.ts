@@ -40,10 +40,6 @@ export class FormularioCadastroStatusProcesso {
         if(response){
           this.dialogRef.close(response);
         }
-      },
-      error: (error) => {
-        alert('Erro ao cadastrar status processo');
-        console.error(error);
       }
     })
 

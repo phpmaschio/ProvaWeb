@@ -5,5 +5,14 @@ export const routes: Routes = [
     {
         path:"dashboard",
         component:Dashboard
+    },
+    {
+        path:"",
+        redirectTo:"dashboard",
+        pathMatch:"full"
+    },
+    {
+        path:"**",
+        redirectTo:"dashboard"
     }
 ];

@@ -1,3 +1,3 @@
-export interface CreatetatusProcessoDto{
+export interface CreateStatusProcessoDto{
     descricao:string;
 }

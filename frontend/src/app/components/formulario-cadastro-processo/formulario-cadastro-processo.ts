@@ -8,13 +8,13 @@ import { StatusProcessoService } from '../../services/status-processo.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from "@angular/material/button";
 import { ReadAndamentoAtualDto } from '../../models/read-andamento-dto';
-import { AndamentoService } from '../../services/andamento-service.service';
+import { AndamentoService } from '../../services/andamento.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormularioCadastroStatusProcesso } from '../formulario-cadastro-status-processo/formulario-cadastro-status-processo';
 import { FormularioCadastroAndamento } from '../formulario-cadastro-andamento/formulario-cadastro-andamento';
-import { ProcessoService } from '../../services/processo-service.service';
+import { ProcessoService } from '../../services/processo.service';
 import { ReadParteDto } from '../../models/read-parte-dto';
-import { ParteService } from '../../services/parte-service.service';
+import { ParteService } from '../../services/parte.service';
 import { FormularioCadastroParte } from '../formulario-cadastro-parte/formulario-cadastro-parte';
 import { ReadProcessoDto } from '../../models/read-processo-dto';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
@@ -96,8 +96,7 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
         this.loading = false;
         this.cdr.detectChanges();
       },
-      error: (error) => {
-        console.error('Erro ao carregar dados iniciais:', error);
+      error: () => {
         this.loading = false;
         this.cdr.detectChanges();
       }
@@ -113,8 +112,7 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
         this.loading = false;
         this.cdr.detectChanges();
       },
-      error: (error) => {
-        console.error(error);
+      error: () => {
         this.loading = false;
         this.cdr.detectChanges();
       }
@@ -129,8 +127,7 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
         this.loading = false;
         this.cdr.detectChanges();
       },
-      error: (error) => {
-        console.error(error);
+      error: () => {
         this.loading = false;
         this.cdr.detectChanges();
       }
@@ -145,8 +142,7 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
         this.loading = false;
         this.cdr.detectChanges();
       },
-      error: (error) => {
-        console.error(error);
+      error: () => {
         this.loading = false;
         this.cdr.detectChanges();
       }
@@ -189,10 +185,6 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
     }).afterClosed().subscribe({
       next: (result: ReadParteDto) => {
         this.fetchPartes();
-      },
-      error: (error) => {
-        alert('Erro ao cadastrar parte');
-        console.error(error);
       }
     });
   }
@@ -206,20 +198,12 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
           if (response) {
             this.dialogRef.close();
           }
-        },
-        error: (error) => {
-          alert("Erro ao registrar processo");
-          console.error(error);
         }
       });
     else {
       this.processoService.updateProcesso(this.data.processo!.id, createProcessoDto).subscribe({
         next: () => {
           this.dialogRef.close();
-        },
-        error: (error) => {
-          alert("Erro ao atualizar processo");
-          console.error(error);
         }
       });
     }

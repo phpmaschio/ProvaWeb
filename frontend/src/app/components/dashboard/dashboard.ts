@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { FormularioCadastroProcesso } from '../formulario-cadastro-processo/formulario-cadastro-processo';
-import { ProcessoService } from '../../services/processo-service.service';
+import { ProcessoService } from '../../services/processo.service';
 import { CommonModule } from '@angular/common';
 import { MatSpinner } from '@angular/material/progress-spinner';
 import { DadosDetalhadosProcesso } from '../dados-detalhados-processo/dados-detalhados-processo';
@@ -44,8 +44,7 @@ export class Dashboard implements OnInit {
         this.cdr.markForCheck();
         this.cdr.detectChanges();
       },
-      error: (error) => {
-        console.error("Erro ao buscar processos:", error);
+      error: () => {
         this.loading = false;
         this.cdr.detectChanges();
       }
@@ -98,10 +97,7 @@ export class Dashboard implements OnInit {
         next: () => {
           this.fetchProcessos();
         },
-        error: (error) => {
-          alert('Erro ao excluir o processo');
-          console.error(error);
-        }
+        error: () => {}
       });
     }
   }

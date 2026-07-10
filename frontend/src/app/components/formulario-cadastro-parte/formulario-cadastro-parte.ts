@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ParteService } from '../../services/parte-service.service';
+import { ParteService } from '../../services/parte.service';
 
 @Component({
   selector: 'app-formulario-cadastro-parte',
@@ -40,10 +40,6 @@ export class FormularioCadastroParte {
         if(response){
           this.dialogRef.close(response);
         }
-      },
-      error: (error) => {
-        alert("Erro a cadastrar parte");
-        console.error(error);
       }
     })
   }

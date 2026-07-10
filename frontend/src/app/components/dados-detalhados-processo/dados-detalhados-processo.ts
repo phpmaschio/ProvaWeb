@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ReadProcessoDto } from '../../models/read-processo-dto';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ReadAndamentoAtualDto } from '../../models/read-andamento-dto';
-import { AndamentoService } from '../../services/andamento-service.service';
+import { AndamentoService } from '../../services/andamento.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { MatSort, MatSortModule } from '@angular/material/sort'; 
@@ -53,11 +53,7 @@ export class DadosDetalhadosProcesso implements AfterViewInit, OnInit {
     this.andamentoService.getAndamentoPorProcesso(this.processo.id).subscribe({
       next: (response) => {
         this.dataSource.data = response;
-        this.dataSource.paginator = this.paginator; 
-      },
-      error: (error) => {
-        alert("Erro ao carregar andamentos");
-        console.error(error);
+        this.dataSource.paginator = this.paginator;
       }
     });
   }
