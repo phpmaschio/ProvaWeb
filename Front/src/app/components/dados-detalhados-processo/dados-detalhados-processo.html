@@ -12,6 +12,9 @@
         </span>
     </div>
     <hr>
+   
+    <input matInput (keyup)="applyFilter($event)" class="filtro__input" placeholder="Filtrar valor...">
+  
     <table mat-table [dataSource]="dataSource" matSort class="mat-shadow-2">
 
         <ng-container matColumnDef="id">

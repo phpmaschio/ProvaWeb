@@ -11,14 +11,19 @@
     gap: 5px;
 }
 
-hr{
-    margin: 10px 0 20px 0;
-}
-
 .cabecalho_linha__container{
     display: flex;
     gap: 5px;
     flex-wrap: wrap;
+}
+
+hr{
+    margin: 10px 0 20px 0;
+}
+
+.filtro__input {
+    width: 99%;
+    margin-bottom: 10px;
 }
 
 ::ng-deep .mat-mdc-table {
