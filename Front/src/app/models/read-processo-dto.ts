@@ -8,4 +8,5 @@ export interface ReadProcessoDto{
  statusProcesso: ReadStatusProcessoDto;
  andamento:ReadAndamentoAtualDto;
  partes: ReadParteDto[];
+ criadoEm: string;
 }

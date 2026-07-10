@@ -10,37 +10,57 @@
         </button>
     </div>
 
-    <div class="dados__container">
-        <div *ngFor="let processo of processos">
-            <mat-card class="example-card" appearance="outlined">
-                <mat-card-header>
-                    <mat-card-title>#{{processo.id}} - {{processo.descricao}}</mat-card-title>
-                    <mat-card-subtitle>{{processo.statusProcesso.descricao}}</mat-card-subtitle>
-                </mat-card-header>
-                <div class="divisor__card__container">
-                    <hr class="divisor__card">
-                </div>
-                <mat-card-content>
-                    <span class="linha__container">
-                        <strong>Andamento Atual:</strong>
-                        <p>
-                            {{processo.andamento.descricao}}
-                        </p>
-
-                    </span>
-
-                </mat-card-content>
-
-                <div class="botoes_card__container">
-                    <button matFab style="background-color: red; color: white;"
-                        (click)="excluirProcesso(processo.id)"><mat-icon>
-                            delete
-                        </mat-icon></button>
-                    <button (click)="editarProcesso(processo)" matFab style="background-color: orange; color: white;"><mat-icon>
-                            edit
-                        </mat-icon></button>
-                </div>
-            </mat-card>
+    @if(loading){
+        <div class="spinner-container">
+            <mat-spinner></mat-spinner>
         </div>
+    }
+
+    @if(!loading){
+    <div class="dados__container">
+        @for (processo of processos; track processo.id) {
+
+        <mat-card class="example-card" appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>#{{processo.id}} - {{processo.descricao}}</mat-card-title>
+                <mat-card-subtitle>{{processo.statusProcesso.descricao}}</mat-card-subtitle>
+            </mat-card-header>
+            <div class="divisor__card__container">
+                <hr class="divisor__card">
+            </div>
+            <mat-card-content>
+                <span class="linha__container">
+                    <strong>Andamento Atual:</strong>
+                    <p>
+                        {{processo.andamento.descricao}}
+                    </p>
+                </span>
+                <span class="linha__container">
+                    <strong>Atibuição Andamento:</strong>
+                    <p>
+                        {{ processo.andamento.atribuidoEm | date:'dd/MM/yyyy HH:mm' }}
+                    </p>
+                </span>
+                <span class="linha__container">
+                    <strong>Criado Em:</strong>
+                    <p>
+                        {{ processo.criadoEm | date:'dd/MM/yyyy HH:mm' }}
+                    </p>
+                </span>
+            </mat-card-content>
+
+            <div class="botoes_card__container">
+                <button matFab style="background-color: red; color: white;"
+                    (click)="excluirProcesso(processo.id)"><mat-icon>
+                        delete
+                    </mat-icon></button>
+                <button (click)="editarProcesso(processo)" matFab
+                    style="background-color: orange; color: white;"><mat-icon>
+                        edit
+                    </mat-icon></button>
+            </div>
+        </mat-card>
+        }
     </div>
+    }
 </div>

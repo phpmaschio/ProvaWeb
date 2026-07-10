@@ -1,3 +1,10 @@
+@if(loading){
+    <div class="spinner-container">
+        <mat-spinner></mat-spinner>
+    </div>
+}
+
+@if (!loading) {
 <form class="form__container" [formGroup]="formulario">
     <!-- Descrição do processo -->
     <mat-form-field class="form_field__container input__form_field">
@@ -61,3 +68,4 @@
         <button matFab (click)="salvar()">Salvar</button>
     </div>
 </form>
+}
