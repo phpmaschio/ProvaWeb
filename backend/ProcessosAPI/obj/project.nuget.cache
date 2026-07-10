@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "saUbSLG+KqY=",
+  "dgSpecHash": "WBb9aBzNCJq/MPESaRyKp+0xsi6PaLf4KMLC2mmxOGZkHaMbDk0s4apjSBAy+18iyJY2pu00b1GHdzt/6m26/g==",
   "success": true,
   "projectFilePath": "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/ProcessosAPI.csproj",
   "expectedPackageFiles": [
@@ -35,18 +35,5 @@
     "/home/pedro/.nuget/packages/system.diagnostics.diagnosticsource/6.0.0/system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "/home/pedro/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1903",
-      "level": "Warning",
-      "message": "Package 'AutoMapper' 12.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x",
-      "projectPath": "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/ProcessosAPI.csproj",
-      "warningLevel": 1,
-      "filePath": "/home/pedro/Projetos/ProcessosAPI/backend/ProcessosAPI/ProcessosAPI.csproj",
-      "libraryId": "AutoMapper",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  "logs": []
 }
