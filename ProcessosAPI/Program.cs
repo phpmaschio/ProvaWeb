@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ProcessosAPI.Converters;
 using ProcessosAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,11 @@ builder.Services.AddDbContext<ProcessoApiContext>(opts =>
         builder.Configuration.GetConnectionString("ProcessoConnection"))
     );
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+    });
 
 // Add services to the container.
 
