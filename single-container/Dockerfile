@@ -29,15 +29,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
     supervisor \
     curl \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && PG_BIN_DIR=$(find /usr/lib/postgresql -maxdepth 2 -type d -name bin) \
+    && ln -s "$PG_BIN_DIR/pg_ctl" /usr/local/bin/pg_ctl \
+    && ln -s "$PG_BIN_DIR/postgres" /usr/local/bin/postgres \
+    && ln -s "$PG_BIN_DIR/initdb" /usr/local/bin/initdb
 
 # ---- Configura o Postgres ----
-ENV PG_VERSION=15
-ENV POSTGRES_DB=minhaapp
+# Superusuário interno do Postgres (usado só para administração, não pela aplicação)
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=postgres
+# Banco/usuário que a APLICAÇÃO usa de fato (deve bater com o appsettings.json / ProcessoConnection)
+ENV APP_DB_NAME=processos_api
+ENV APP_DB_USER=processos_api_user
+ENV APP_DB_PASSWORD=processos_api_password
 USER postgres
-RUN /usr/lib/postgresql/*/bin/initdb -D /var/lib/postgresql/data
+RUN initdb -D /var/lib/postgresql/data
 USER root
 
 # ---- Copia artefatos das etapas anteriores ----
@@ -52,7 +59,7 @@ RUN chmod +x /entrypoint.sh
 
 ENV ASPNETCORE_URLS=http://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
-ENV ConnectionStrings__DefaultConnection="Host=localhost;Port=5432;Database=minhaapp;Username=postgres;Password=postgres"
+ENV ConnectionStrings__ProcessoConnection="Host=localhost;Port=5432;Database=processos_api;Username=processos_api_user;Password=processos_api_password"
 
 EXPOSE 80 8080 5432
 
