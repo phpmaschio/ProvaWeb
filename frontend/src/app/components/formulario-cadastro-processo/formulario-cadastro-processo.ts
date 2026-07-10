@@ -54,7 +54,7 @@ export class FormularioCadastroProcesso implements OnInit { // Implementar OnIni
     @Inject(MAT_DIALOG_DATA) private data: { processo?: ReadProcessoDto, edicao: boolean }
   ) {
     this.formulario = this.formBuilder.group({
-      descricao: ['', Validators.required],
+      descricao: ['', [Validators.required, Validators.maxLength(100)]],
       statusProcessoId: [null, Validators.required],
       partes: [[], Validators.required],
       andamento: [null, Validators.required],

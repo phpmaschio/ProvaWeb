@@ -29,8 +29,8 @@ export class FormularioCadastroParte {
     private parteService:ParteService
   ) {
     this.formulario = formBuilder.group({
-      nome: ['', Validators.required],
-      tipo: ['', Validators.required]
+      nome: ['', [Validators.required, Validators.maxLength(100)]],
+      tipo: ['', [Validators.required, Validators.maxLength(50)]]
     })
   }
 

@@ -3,11 +3,21 @@
     <mat-form-field class="form_field__container input__form_field">
         <mat-label>Nome</mat-label>
         <input matInput formControlName="nome">
+        @if (formulario.get('nome')?.hasError('required')) {
+            <mat-error>Nome é obrigatório</mat-error>
+        } @else if (formulario.get('nome')?.hasError('maxlength')) {
+            <mat-error>Nome deve conter no máximo 100 caracteres</mat-error>
+        }
     </mat-form-field>
 
     <mat-form-field class="form_field__container input__form_field">
         <mat-label>Tipo</mat-label>
         <input matInput formControlName="tipo">
+        @if (formulario.get('tipo')?.hasError('required')) {
+            <mat-error>Tipo é obrigatório</mat-error>
+        } @else if (formulario.get('tipo')?.hasError('maxlength')) {
+            <mat-error>Tipo deve conter no máximo 50 caracteres</mat-error>
+        }
     </mat-form-field>
 
     <div class="botoes__container">

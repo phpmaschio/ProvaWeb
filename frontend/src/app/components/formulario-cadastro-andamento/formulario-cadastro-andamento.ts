@@ -25,7 +25,7 @@ export class FormularioCadastroAndamento {
 
   constructor(private formBuilder: FormBuilder, protected dialogRef:MatDialogRef<FormularioCadastroAndamento>){
     this.formulario = formBuilder.group({
-      descricao:['',Validators.required]
+      descricao:['',[Validators.required, Validators.maxLength(100)]]
     })
   }
 

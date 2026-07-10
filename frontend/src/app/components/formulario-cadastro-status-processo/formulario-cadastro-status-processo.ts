@@ -30,7 +30,7 @@ export class FormularioCadastroStatusProcesso {
     protected dialogRef: MatDialogRef<FormularioCadastroStatusProcesso>
   ){
     this.formulario = formBuilder.group({
-      descricao:['', Validators.required]
+      descricao:['', [Validators.required, Validators.maxLength(50)]]
     })
   }
 

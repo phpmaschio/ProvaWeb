@@ -10,6 +10,11 @@
     <mat-form-field class="form_field__container input__form_field">
         <mat-label>Descição</mat-label>
         <input matInput formControlName="descricao">
+        @if (formulario.get('descricao')?.hasError('required')) {
+            <mat-error>Descrição é obrigatória</mat-error>
+        } @else if (formulario.get('descricao')?.hasError('maxlength')) {
+            <mat-error>Descrição deve conter no máximo 100 caracteres</mat-error>
+        }
     </mat-form-field>
 
     <!-- Status do processo -->
@@ -23,6 +28,9 @@
                 </mat-option>
                 }
             </mat-select>
+            @if (formulario.get('statusProcessoId')?.hasError('required')) {
+                <mat-error>Status é obrigatório</mat-error>
+            }
         </mat-form-field>
         <button matFab style="width: 10%;" (click)="abrirFormularioCadastroStatusProcesso()">
             <mat-icon>add</mat-icon>
@@ -40,6 +48,9 @@
                 </mat-option>
                 }
             </mat-select>
+            @if (formulario.get('andamento')?.hasError('required')) {
+                <mat-error>Andamento é obrigatório</mat-error>
+            }
         </mat-form-field>
         <button matFab style="width: 10%;" (click)="abrirFormularioCadastroAndamento()">
             <mat-icon>add</mat-icon>
@@ -57,6 +68,9 @@
                 </mat-option>
                 }
             </mat-select>
+            @if (formulario.get('partes')?.hasError('required')) {
+                <mat-error>Selecione ao menos uma parte</mat-error>
+            }
         </mat-form-field>
         <button matFab style="width: 10%;" (click)="abrirFormularioCadastroParte()">
             <mat-icon>add</mat-icon>

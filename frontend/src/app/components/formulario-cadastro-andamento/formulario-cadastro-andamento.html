@@ -2,6 +2,11 @@
     <mat-form-field class="form_field__container input__form_field">
         <mat-label>Descição</mat-label>
         <input matInput formControlName="descricao">
+        @if (formulario.get('descricao')?.hasError('required')) {
+            <mat-error>Descrição é obrigatória</mat-error>
+        } @else if (formulario.get('descricao')?.hasError('maxlength')) {
+            <mat-error>Descrição deve conter no máximo 100 caracteres</mat-error>
+        }
     </mat-form-field>
 
     <div class="botoes__container">
