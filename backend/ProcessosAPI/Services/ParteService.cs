@@ -24,7 +24,7 @@ public class ParteService
     
     public List<ReadParteDto> ListarPartes(int skip, int take)
     {
-        return _mapper.Map<List<ReadParteDto>>(_context.Partes.Skip(skip).Take(take).ToList());
+        return _mapper.Map<List<ReadParteDto>>(_context.Partes.Skip(Math.Max(skip, 0)).Take(Math.Clamp(take, 1, 100)).ToList());
     }
 
     public ReadParteDto? BuscarPartePorIdDto(long id)

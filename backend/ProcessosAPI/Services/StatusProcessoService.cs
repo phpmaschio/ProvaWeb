@@ -31,7 +31,7 @@ public class StatusProcessoService
     public void AtualizarStatusProcesso(long id, UpdateStatusProcessoDto updateStatusProcessoDto)
     {
         var statusProcessoSalvo = _apiContext.StatusProcessos.FirstOrDefault(x => x.Id == id);
-        if (statusProcessoSalvo == null) throw new NotFoundException("Status não econtrado");
+        if (statusProcessoSalvo == null) throw new NotFoundException("Status não encontrado");
         var statusProcesso = _mapper.Map<StatusProcesso>(updateStatusProcessoDto);
         statusProcessoSalvo.Descricao = statusProcesso.Descricao;
         statusProcessoSalvo.UltimaAlteracao = DateTime.UtcNow;
@@ -40,26 +40,26 @@ public class StatusProcessoService
     
     public IEnumerable<ReadStatusProcessoDto> ListarStatus(int skip, int take)
     {
-        return _mapper.Map<List<ReadStatusProcessoDto>>(_apiContext.StatusProcessos.Skip(skip).Take(take).ToList());
+        return _mapper.Map<List<ReadStatusProcessoDto>>(_apiContext.StatusProcessos.Skip(Math.Max(skip, 0)).Take(Math.Clamp(take, 1, 100)).ToList());
     }
     
     public ReadStatusProcessoDto RetornaStatusPorIdDto(long id)
     {
         var statusProcesso = _apiContext.StatusProcessos.FirstOrDefault(x => x.Id == id);
-        return statusProcesso == null ? throw new NotFoundException("Status não econtrado") : _mapper.Map<ReadStatusProcessoDto>(statusProcesso);
+        return statusProcesso == null ? throw new NotFoundException("Status não encontrado") : _mapper.Map<ReadStatusProcessoDto>(statusProcesso);
     }
     
     public StatusProcesso RetornaStatusPorId(long id)
     {
         var statusProcesso = _apiContext.StatusProcessos.FirstOrDefault(x => x.Id == id);
-        return statusProcesso ?? throw new NotFoundException("Status não econtrado");
+        return statusProcesso ?? throw new NotFoundException("Status não encontrado");
         
     }
 
     public void ExcluirStatusProcesso(long id)
     {
         var statusProcesso = this.RetornaStatusPorId(id);
-        if(statusProcesso == null) throw new NotFoundException("Status não econtrado");
+        if(statusProcesso == null) throw new NotFoundException("Status não encontrado");
         _apiContext.Remove(statusProcesso);
         _apiContext.SaveChanges();
     }

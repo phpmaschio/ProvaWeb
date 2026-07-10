@@ -38,67 +38,77 @@ public class ProcessoService
             .Include(p => p.Status)
             .Include(p => p.PartesProcessos)
             .ThenInclude(pp => pp.Parte)
-            .Skip(skip)
-            .Take(take)
+            .Skip(Math.Max(skip, 0))
+            .Take(Math.Clamp(take, 1, 100))
             .ToList();
-        
-        var resultado = processosDb.Select(p =>
-        {
-            var andamento = _andamentoService.BuscarAndamentoAtualDoProcesso(p.Id);
-            
-            var processoDto = _mapper.Map<ReadProcessoDto>(p);
 
-            // Usa a expressão 'with' do C# (já que seu DTO é um record) para preencher as coleções e relacionamentos que faltam
-            return processoDto with 
-            { 
-                // Navegamos por PartesProcessos para extrair as Partes e mapeá-las para ReadParteDto
-                Partes = p.PartesProcessos
-                    .Select(pp => _mapper.Map<ReadParteDto>(pp.Parte))
-                    .ToList(),
-                            
-                Andamento = andamento == null 
-                    ? null 
-                    : _mapper.Map<ReadAndamentoAtualDto>(andamento)
-            };
-            
-        }).ToList();
-
-        return resultado;
+        return processosDb.Select(MontarProcessoDto).ToList();
     }
+
     public ReadProcessoDto BuscarProcessoPorIdDto(long id)
     {
-        var processo = _apiContext.Processos.Include(p => p.Status).FirstOrDefault(x => x.Id == id);
-        return processo == null ? throw new NotFoundException("Processo não econtrado") : _mapper.Map<ReadProcessoDto>(processo);
+        var processo = _apiContext.Processos
+            .Include(p => p.Status)
+            .Include(p => p.PartesProcessos)
+            .ThenInclude(pp => pp.Parte)
+            .FirstOrDefault(x => x.Id == id);
+
+        return processo == null ? throw new NotFoundException("Processo não encontrado") : MontarProcessoDto(processo);
+    }
+
+    // Usa a expressão 'with' do C# (já que seu DTO é um record) para preencher as coleções e relacionamentos que faltam
+    private ReadProcessoDto MontarProcessoDto(Processo p)
+    {
+        var andamento = _andamentoService.BuscarAndamentoAtualDoProcesso(p.Id);
+
+        var processoDto = _mapper.Map<ReadProcessoDto>(p);
+
+        return processoDto with
+        {
+            // Navegamos por PartesProcessos para extrair as Partes e mapeá-las para ReadParteDto
+            Partes = p.PartesProcessos
+                .Select(pp => _mapper.Map<ReadParteDto>(pp.Parte))
+                .ToList(),
+
+            Andamento = andamento == null
+                ? null
+                : _mapper.Map<ReadAndamentoAtualDto>(andamento)
+        };
     }
     
     private Processo? BuscarProcessoPorId(long id)
     {
         var processo = _apiContext.Processos.FirstOrDefault(x => x.Id == id);
-        return processo ?? throw new NotFoundException("Processo não econtrado");
+        return processo ?? throw new NotFoundException("Processo não encontrado");
     }
     
     
 
     public ReadProcessoDto CadastrarProcesso(CreateProcessoDto createProcessoDto)
     {
+        using var transaction = _apiContext.Database.BeginTransaction();
+
         //Busca statusProcesso
         var statusProcesso = _statusProcessoService.RetornaStatusPorId(createProcessoDto.StatusProcessoId);
-        if (statusProcesso == null) throw new NotFoundException("Status não econtrado");
+        if (statusProcesso == null) throw new NotFoundException("Status não encontrado");
         var processo = _mapper.Map<Processo>(createProcessoDto);
         processo.Status = statusProcesso;
         processo.CriadoEm = DateTime.UtcNow;
         _apiContext.Processos.Add(processo);
         _apiContext.SaveChanges();
-        
+
         //Atriuir partes ao processo
         List<Parte> partes = createProcessoDto.Partes
             .Select(parteDto => _parteService.BuscarPartePorId(parteDto.Id)
                                 ?? throw new NotFoundException("Erro ao atribuir Partes, parte não encontrada"))
             .ToList();
         _parteProcessoService.AtribuirPartesAoProcesso(processo, partes );
-        
+
         //Atribuir andamento
         ReadAndamentoAtualDto andamentoAtualDto = _andamentoService.AtribuirAndamentoProcesso(processo,createProcessoDto.Andamento);
+
+        transaction.Commit();
+
         return new ReadProcessoDto(
             processo.Id,
             processo.Descricao,
@@ -109,13 +119,15 @@ public class ProcessoService
     }
 public void AtualizarProcesso(long id, UpdateProcessoDto updateProcessoDto)
 {
+    using var transaction = _apiContext.Database.BeginTransaction();
+
     var processo = _mapper.Map<Processo>(updateProcessoDto);
     var processoSalvo = this.BuscarProcessoPorId(id);
     
     if (processoSalvo == null) throw new NotFoundException("Processo não encontrado");
     
     var statusProcesso = _statusProcessoService.RetornaStatusPorId(updateProcessoDto.StatusProcessoId);
-    if (statusProcesso == null) throw new NotFoundException("Status não econtrado");
+    if (statusProcesso == null) throw new NotFoundException("Status não encontrado");
     
     // Atualiza dados básicos
     processoSalvo.Descricao = processo.Descricao;
@@ -169,7 +181,8 @@ public void AtualizarProcesso(long id, UpdateProcessoDto updateProcessoDto)
 
     // Salva tudo na mesma transação
     _apiContext.SaveChanges();
-}    
+    transaction.Commit();
+}
     public void DeletarProcesso(long id)
     {
         var processoSalvo = this.BuscarProcessoPorId(id);

@@ -22,7 +22,7 @@ public class ParteProcessoService
         {
             ParteProcesso parteProcesso = new ParteProcesso(parte,processo);
             _context.PartesProcessos.Add(parteProcesso);
-            _context.SaveChanges();
         }
+        _context.SaveChanges();
     }
 }

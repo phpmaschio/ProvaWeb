@@ -59,6 +59,7 @@ RUN chmod +x /entrypoint.sh
 
 ENV ASPNETCORE_URLS=http://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
+ENV DOTNET_USE_POLLING_FILE_WATCHER=true
 ENV ConnectionStrings__ProcessoConnection="Host=localhost;Port=5432;Database=processos_api;Username=processos_api_user;Password=processos_api_password"
 
 EXPOSE 80 8080 5432

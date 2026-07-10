@@ -8,7 +8,7 @@ services:
     ports:
       - "80:80"       # Angular via nginx
       - "8080:8080"   # API .NET direta (opcional, útil para debug)
-      - "5432:5432"   # Postgres (opcional, útil para conectar DBeaver/pgAdmin)
+      - "5433:5432"   # Postgres (opcional, útil para conectar DBeaver/pgAdmin)
     environment:
       APP_DB_NAME: processos_api
       APP_DB_USER: processos_api_user

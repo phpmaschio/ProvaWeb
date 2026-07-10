@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using ProcessosAPI.Converters;
 using ProcessosAPI.Data;
+using ProcessosAPI.Exceptions;
+using ProcessosAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ProcessoApiContext>(opts =>
@@ -14,8 +17,12 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
     });
 
+builder.Services.AddScoped<StatusProcessoService>();
+builder.Services.AddScoped<ParteProcessoService>();
+builder.Services.AddScoped<ParteService>();
+builder.Services.AddScoped<AndamentoService>();
+builder.Services.AddScoped<ProcessoService>();
 
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -49,6 +56,27 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+        var error = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+
+        if (error is NotFoundException notFoundEx)
+        {
+            logger.LogWarning("{Mensagem}", notFoundEx.Message);
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            await context.Response.WriteAsJsonAsync(new { message = notFoundEx.Message });
+            return;
+        }
+
+        logger.LogError(error, "Erro não tratado");
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsJsonAsync(new { message = "Erro interno no servidor" });
+    });
+});
 
 app.UseHttpsRedirection();
 

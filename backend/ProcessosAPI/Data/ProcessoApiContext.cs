@@ -5,7 +5,6 @@ namespace ProcessosAPI.Data;
 
 public class ProcessoApiContext : DbContext
 {
-    public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<StatusProcesso> StatusProcessos { get; set; }
     public DbSet<Processo> Processos { get; set; }
     public DbSet<Parte> Partes { get; set; }

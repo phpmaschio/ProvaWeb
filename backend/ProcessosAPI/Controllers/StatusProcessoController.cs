@@ -1,8 +1,5 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ProcessosAPI.Data;
 using ProcessosAPI.DTOs;
-using ProcessosAPI.Exceptions;
 using ProcessosAPI.Services;
 
 namespace ProcessosAPI.Controllers;
@@ -13,99 +10,45 @@ public class StatusProcessoController : ControllerBase
 {
     private readonly StatusProcessoService _statusProcessoService;
 
-    public StatusProcessoController(ProcessoApiContext apiContext, IMapper mapper)
+    public StatusProcessoController(StatusProcessoService statusProcessoService)
     {
-        _statusProcessoService = new StatusProcessoService(apiContext, mapper);
+        _statusProcessoService = statusProcessoService;
     }
-    
+
     [HttpGet]
     public IActionResult RetornaTodosStatus([FromQuery] int skip = 0, [FromQuery] int take = 10)
     {
-        try
-        {
-            return Ok(_statusProcessoService.ListarStatus(skip, take));
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return BadRequest(); 
-        }
+        return Ok(_statusProcessoService.ListarStatus(skip, take));
     }
-    
+
     [HttpGet("{id:long}")]
     public IActionResult RetornaStatusPorId(long id)
     {
-        try
-        {
-            return Ok(_statusProcessoService.RetornaStatusPorIdDto(id));
-        }
-        catch (NotFoundException e)
-        {
-            return NotFound(e.Message);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        return Ok(_statusProcessoService.RetornaStatusPorIdDto(id));
     }
-    
+
     [HttpPost]
     public CreatedAtActionResult CadastraStatusProcesso([FromBody] CreateStatusProcessoDto createStatusProcessoDto)
     {
-        try
-        {
-            var statusProcesso = _statusProcessoService.CadastrarStatusProcesso(createStatusProcessoDto);
-        
-            return CreatedAtAction(
-                nameof(RetornaStatusPorId),
-                new { id = statusProcesso.Id },
-                statusProcesso);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-       
+        var statusProcesso = _statusProcessoService.CadastrarStatusProcesso(createStatusProcessoDto);
+
+        return CreatedAtAction(
+            nameof(RetornaStatusPorId),
+            new { id = statusProcesso.Id },
+            statusProcesso);
     }
 
     [HttpPut("{id:long}")]
     public IActionResult AtualizaStatusProcesso([FromBody] UpdateStatusProcessoDto updateStatusProcessoDto, long id)
     {
-        try
-        {
-            _statusProcessoService.AtualizarStatusProcesso(id, updateStatusProcessoDto);
-            return NoContent();
-        }
-        catch (NotFoundException e)
-        {
-            Console.WriteLine(e);
-            return NotFound(e.Message);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return BadRequest(e.Message);
-        }
+        _statusProcessoService.AtualizarStatusProcesso(id, updateStatusProcessoDto);
+        return NoContent();
     }
-    
+
     [HttpDelete("{id}")]
     public IActionResult ExcluirStatusProcesso(long id)
     {
-        try
-        {
-            _statusProcessoService.ExcluirStatusProcesso(id);
-            return NoContent();
-        }
-        catch (NotFoundException e)
-        {
-            Console.WriteLine(e);
-            return NotFound(e.Message);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return BadRequest(e.Message);
-        }
+        _statusProcessoService.ExcluirStatusProcesso(id);
+        return NoContent();
     }
 }

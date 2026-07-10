@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcessosAPI.Data;
@@ -11,9 +12,10 @@ using ProcessosAPI.Data;
 namespace ProcessosAPI.Migrations
 {
     [DbContext(typeof(ProcessoApiContext))]
-    partial class ProcessoApiContextModelSnapshot : ModelSnapshot
+    [Migration("20260710125332_RemoveUsuario")]
+    partial class RemoveUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
