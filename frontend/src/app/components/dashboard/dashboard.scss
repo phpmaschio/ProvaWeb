@@ -6,9 +6,26 @@
 .spinner-container {
     display: flex;
     justify-content: center;
-    align-items: center; 
-    height: 70vh;     
-    width: 100%;            
+    align-items: center;
+    height: 70vh;
+    width: 100%;
+}
+
+.empty__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 50vh;
+    width: 100%;
+    color: var(--mat-sys-on-surface-variant);
+
+    mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+    }
 }
 
 .example-card {

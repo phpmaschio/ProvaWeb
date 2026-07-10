@@ -1,18 +1,20 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core'; 
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ReadProcessoDto } from '../../models/read-processo-dto';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormularioCadastroProcesso } from '../formulario-cadastro-processo/formulario-cadastro-processo';
 import { ProcessoService } from '../../services/processo.service';
 import { CommonModule } from '@angular/common';
 import { MatSpinner } from '@angular/material/progress-spinner';
 import { DadosDetalhadosProcesso } from '../dados-detalhados-processo/dados-detalhados-processo';
+import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatCardModule, MatButtonModule, MatIcon, CommonModule, MatSpinner], 
+  imports: [MatCardModule, MatButtonModule, MatIcon, CommonModule, MatSpinner, MatTooltipModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -92,14 +94,21 @@ export class Dashboard implements OnInit {
   }
 
   excluirProcesso(processoId: number) {
-    if (confirm('Deseja realmente excluir o processo?')) {
-      this.processoService.deleteProcesso(processoId).subscribe({
-        next: () => {
-          this.fetchProcessos();
-        },
-        error: () => {}
-      });
-    }
+    this.dialog.open(ConfirmDialog, {
+      width: '400px',
+      data: {
+        titulo: 'Excluir processo',
+        mensagem: 'Deseja realmente excluir o processo?'
+      }
+    }).afterClosed().subscribe((confirmado: boolean) => {
+      if (confirmado) {
+        this.processoService.deleteProcesso(processoId).subscribe({
+          next: () => {
+            this.fetchProcessos();
+          }
+        });
+      }
+    });
   }
 
   visualizarProcesso(processo: ReadProcessoDto) {

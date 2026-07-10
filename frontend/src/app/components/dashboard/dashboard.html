@@ -1,10 +1,10 @@
 <div>
     <div class="filtros__container">
         <input class="filtro__input" matInput placeholder="Filtrar processo" (keyup)="applyFilter($event)">
-        <button matFab (click)="fetchProcessos()" style="background-color: #2f71ff; color: white;">
+        <button matFab (click)="fetchProcessos()" style="background-color: #2f71ff; color: white;" matTooltip="Atualizar lista">
             <mat-icon>search</mat-icon>
         </button>
-        <button class="botao__novo_processo" matFab extended (click)="criarNovoProcesso()">
+        <button class="botao__novo_processo" matFab extended (click)="criarNovoProcesso()" matTooltip="Cadastrar novo processo">
             <mat-icon>add</mat-icon>
             Novo processo
         </button>
@@ -16,7 +16,14 @@
     </div>
     }
 
-    @if(!loading){
+    @if(!loading && processos.length === 0){
+    <div class="empty__container">
+        <mat-icon>inbox</mat-icon>
+        <p>Nenhum processo encontrado</p>
+    </div>
+    }
+
+    @if(!loading && processos.length > 0){
     <div class="dados__container">
         @for (processo of processos; track processo.id) {
 
@@ -50,17 +57,17 @@
             </mat-card-content>
 
             <div class="botoes_card__container">
-                <button matFab style="background-color: red; color: white;" (click)="excluirProcesso(processo.id)">
+                <button matFab style="background-color: red; color: white;" (click)="excluirProcesso(processo.id)" matTooltip="Excluir processo">
                     <mat-icon>
                         delete
                     </mat-icon>
                 </button>
-                <button (click)="editarProcesso(processo)" matFab style="background-color: green; color: white;">
+                <button (click)="editarProcesso(processo)" matFab style="background-color: green; color: white;" matTooltip="Editar processo">
                     <mat-icon>
                         edit
                     </mat-icon>
                 </button>
-                <button (click)="visualizarProcesso(processo)" matFab style="background-color: #2f71ff; color: white;">
+                <button (click)="visualizarProcesso(processo)" matFab style="background-color: #2f71ff; color: white;" matTooltip="Ver detalhes">
                     <mat-icon>
                         search
                     </mat-icon>
