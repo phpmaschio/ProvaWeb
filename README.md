@@ -27,13 +27,13 @@ Aplicação web para cadastro e acompanhamento de processos, com gestão de part
 
 Pré-requisito: Docker Desktop instalado e rodando.
 
+`docker-compose.yml`:
+
+Isso builda o frontend (Angular), o backend (.NET) e sobe um container único com Postgres, API e frontend servidos via nginx. As migrations do banco são aplicadas automaticamente na inicialização. O compose deve estar na pasta raiz do projeto.
+
 ```bash
 docker compose up --build -d
 ```
-
-Isso builda o frontend (Angular), o backend (.NET) e sobe um container único com Postgres, API e frontend servidos via nginx. As migrations do banco são aplicadas automaticamente na inicialização.
-
-`docker-compose.yml`:
 
 ```yaml
 services:
